@@ -19,7 +19,8 @@ def title():
     print(f"|                         |-----+                 |")
     print(f"|           --------------+                       |")
     print(f"+-------------------------------------------------+")
-    print("Welcome to \033[92mArbo\033[00mPhyl!\n| 0: Full pipeline\n| 1: BUSCO\n| 2: FilterBUSCOs\n| 3: MAFFT\n| 4: TrimAl\n| 5: IQTREE Model Prediction\n| 6: Partition file creation\n| 7: IQTREE")
+    print("\n")
+    print("Welcome to \033[92mArbo\033[00mPhyl!\n| 0: Full pipeline\n| 1: BUSCO\n| 2: FilterBUSCOs\n| 3: MAFFT\n| 4: TrimAl\n| 5: IQTREE Model Prediction\n| 6: Partition file creation\n| 7: IQTREE\n")
 
 
 def analysis_selection():
