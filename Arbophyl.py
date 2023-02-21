@@ -157,6 +157,7 @@ def analysis_exe(inputs):
         print(subprocess.run(["bash", "-i", "Arbophyl.sh", "iqtree"]))
 
 
+os.system("clear")
 title()
 analysis_exe(analysis_selection())
 
