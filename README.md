@@ -16,7 +16,7 @@ conda create -n mafft -c bioconda mafft
 # install TrimAl
 conda create -n trimal -c bioconda trimal
 
-#install IQTREE
+# install IQTREE
 conda create -n iqtree -c bioconda iqtree
 ```
 
