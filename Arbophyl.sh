@@ -44,5 +44,5 @@ fi
 
 if [[ "$1" == "iqtree" ]]; then
     conda activate iqtree
-    iqtree -s FilterBUSCOs_output/MAFFT_output/Trimmed_MSAs/ -p -nt 20 Partition.nex -bb 1000 -alrt 1000
+    iqtree -s FilterBUSCOs_output/MAFFT_output/Trimmed_MSAs/ -p Partition.nex -bb 1000 -alrt 1000 -nt 20 
 fi
