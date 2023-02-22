@@ -22,7 +22,7 @@ conda create -n iqtree -c bioconda iqtree
 
 ## Usage
 
-Download the assembly scaffolds of each of your species and place their fasta files into one folder. Place both the [Arbophyl.py](https://github.com/TimVerschuren/ArboPhyl/blob/master/Arbophyl.py) and [Arpbophyl.sh](https://github.com/TimVerschuren/ArboPhyl/blob/master/Arbophyl.sh) files into the folder aswell. Go to the correct directory utilising the commandline and run the following command:
+Download the assembly scaffolds of each of your species and place their fasta files into one folder. Place both the [Arbophyl.py](https://github.com/TimVerschuren/ArboPhyl/blob/master/Arbophyl.py) and [Arbophyl.sh](https://github.com/TimVerschuren/ArboPhyl/blob/master/Arbophyl.sh) files into the folder aswell. Go to the correct directory utilising the commandline and run the following command:
 
 ```bash
 python Arbophyl.py
