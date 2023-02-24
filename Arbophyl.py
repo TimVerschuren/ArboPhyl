@@ -46,7 +46,7 @@ def analysis_selection():
     # Input number of threads, and check for correct input
     while True:
         try:
-            print(f"\033[34mThere are {os.cpu_count()} threads available\033[00m")
+            print(f"\033[1;34mThere are {os.cpu_count()} threads available\033[00m")
             threads = input("Please input the number of threads to be used: ")
             int(threads)
         except KeyboardInterrupt:
