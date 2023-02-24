@@ -37,7 +37,7 @@ def analysis_selection():
             for item in analyses:
                 int(item)
         except:
-            print("\033[31mPlease select a valid input!\033[00m\n")
+            print("\033[1;31mPlease select a valid input!\033[00m\n")
         else:
             break
 
@@ -52,7 +52,7 @@ def analysis_selection():
         except KeyboardInterrupt:
             break
         except:
-            print("\033[31mPlease only input integers!\033[00m\n")
+            print("\033[1;31mPlease only input integers!\033[00m\n")
         else:
             break
 
