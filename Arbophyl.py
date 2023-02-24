@@ -1,5 +1,5 @@
 # ArboPhyl version 1.0
-# 20-02-2023
+# 24-02-2023
 # Author: Tim Verschuren
 
 import subprocess
@@ -20,7 +20,7 @@ def title():
     print(f"|           --------------+                       |")
     print(f"+-------------------------------------------------+")
     print("\n")
-    print("Welcome to \033[92mArbo\033[00mPhyl!\n| 0: Full pipeline\n| 1: BUSCO\n| 2: FilterBUSCOs\n| 3: MAFFT\n| 4: TrimAl\n| 5: IQTREE Model Prediction\n| 6: Partition file creation\n| 7: IQTREE\n")
+    print("Welcome to \033[92mArbo\033[00mPhyl!\n| 0: Full pipeline\n| 1: BUSCO\n| 2: FilterBUSCOs\n| 3: MAFFT\n| 4: TrimAl\n| 5: IQTREE Model Prediction\n| 6: Partition file creation\n| 7: IQTREE\n| q: Quit ArboPhyl\n")
 
 
 def analysis_selection():
@@ -29,16 +29,33 @@ def analysis_selection():
     # Make sure that a program is not run multiple times
     if len(analyses) >> 1 & analyses.__contains__("0"):
         analyses = ["0"]
+    # Allow user to exit program
+    if analyses.__contains__("q"):
+        quit()
     # Make sure that no letters are used as an input
     for item in analyses:
         try:
             int(item)
         except:
-            print("Please only input integers!")
+            print("\033[31mPlease only input integers!\033[00m\n")
             analysis_selection()
 
     lineage = input("Please input the lineage used during the BUSCO analysis: ").lower()
-    return(analyses, lineage)
+
+    # Input number of threads, and check for correct input
+    while True:
+        try:
+            print(f"\033[34mThere are {os.cpu_count()} threads available\033[00m")
+            threads = input("Please input the number of threads to be used: ")
+            int(threads)
+        except KeyboardInterrupt:
+            break
+        except:
+            print("\033[31mPlease only input integers!\033[00m\n")
+        else:
+            break
+
+    return(analyses, lineage, threads)
 
 
 def progress_bar(progress, total):
@@ -136,25 +153,25 @@ def create_partition_file():
 def analysis_exe(inputs):
     # Start BUSCO
     if inputs[0].__contains__("0") or inputs[0].__contains__("1"):
-        print(subprocess.run(["bash", "-i", "Arbophyl.sh", "busco", inputs[1]]))
+        print(subprocess.run(["bash", "-i", "Arbophyl.sh", "busco", inputs[1], inputs[2]]))
     # Start FilterBUSCOs
     if inputs[0].__contains__("0") or inputs[0].__contains__("2"):
         busco_MSA((find_overlap(inputs[1])))
     # Start MAFFT
     if inputs[0].__contains__("0") or inputs[0].__contains__("3"):
-        print(subprocess.run(["bash", "-i", "Arbophyl.sh", "mafft"]))
+        print(subprocess.run(["bash", "-i", "Arbophyl.sh", "mafft", inputs[2]]))
     # Start TrimAl
     if inputs[0].__contains__("0") or inputs[0].__contains__("4"):
         print(subprocess.run(["bash", "-i", "Arbophyl.sh", "trimal"]))
     # Start IQTREE Models
     if inputs[0].__contains__("0") or inputs[0].__contains__("5"):
-        print(subprocess.run(["bash", "-i", "Arbophyl.sh", "iqtree_models"]))
+        print(subprocess.run(["bash", "-i", "Arbophyl.sh", "iqtree_models", inputs[2]]))
     # Start Partition file creation
     if inputs[0].__contains__("0") or inputs[0].__contains__("6"):
         create_partition_file()
     # Start IQTREE
     if inputs[0].__contains__("0") or inputs[0].__contains__("7"):
-        print(subprocess.run(["bash", "-i", "Arbophyl.sh", "iqtree"]))
+        print(subprocess.run(["bash", "-i", "Arbophyl.sh", "iqtree", inputs[2]]))
 
 
 os.system("clear")
