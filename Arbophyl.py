@@ -24,21 +24,22 @@ def title():
 
 
 def analysis_selection():
-    input_list = input("Select number(s) of required analyses seperated by commas (1,2,3): ")
-    analyses = input_list.split(",")
-    # Make sure that a program is not run multiple times
-    if len(analyses) >> 1 & analyses.__contains__("0"):
-        analyses = ["0"]
-    # Allow user to exit program
-    if analyses.__contains__("q"):
-        quit()
-    # Make sure that no letters are used as an input
-    for item in analyses:
+    while True:
+        input_list = input("Select number(s) of required analyses seperated by commas (1,2,3): ")
+        analyses = input_list.split(",")
+        # Make sure that a program is not run multiple times
+        if len(analyses) >> 1 & analyses.__contains__("0"):
+            analyses = ["0"]
+        # Allow user to exit program
+        if analyses.__contains__("q"):
+            quit()
         try:
-            int(item)
+            for item in analyses:
+                int(item)
         except:
-            print("\033[31mPlease only input integers!\033[00m\n")
-            analysis_selection()
+            print("\033[31mPlease select a valid input!\033[00m\n")
+        else:
+            break
 
     lineage = input("Please input the lineage used during the BUSCO analysis: ").lower()
 
