@@ -1,10 +1,11 @@
-# ArboPhyl version 1.0
-# 24-02-2023
+# ArboPhyl version 1.1
+# 31-03-2023
 # Author: Tim Verschuren
 
 import subprocess
 import os
 import collections
+from Bio import AlignIO
 
 def title():
     print(f"+-------------------------------------------------+")
@@ -20,7 +21,7 @@ def title():
     print(f"|           --------------+                       |")
     print(f"+-------------------------------------------------+")
     print("\n")
-    print("Welcome to \033[92mArbo\033[00mPhyl!\n| 0: Full pipeline\n| 1: BUSCO\n| 2: FilterBUSCOs\n| 3: MAFFT\n| 4: TrimAl\n| 5: IQTREE Model Prediction\n| 6: Partition file creation\n| 7: IQTREE\n| q: Quit ArboPhyl\n")
+    print("Welcome to \033[92mArbo\033[00mPhyl!\n| 0: Full pipeline\n| 1: BUSCO\n| 2: FilterBUSCOs\n| 3: MAFFT\n| 4: TrimAl\n| 5: MSA QC\n| 6: IQTREE Model Prediction\n| 7: Partition file creation\n| 8: IQTREE\n| q: Quit ArboPhyl\n")
 
 
 def analysis_selection():
@@ -133,7 +134,6 @@ def create_partition_file():
 
     model_dict = {}
     path = f"{os.getcwd()}/FilterBUSCOs_output/MAFFT_output/Trimmed_MSAs/Models"
-    print(path)
     with open("Partition.nex", "w") as partition_file:
         partition_file.write("#nexus\nbegin sets;\n")
         for dir in os.listdir(path):
@@ -151,6 +151,18 @@ def create_partition_file():
         partition_file.write(";\nend;")
 
 
+def sum_of_pairs():
+
+    files = os.listdir()
+    path = f"{os.getcwd()}/FilterBUSCOs_output/MAFFT_output/Trimmed_MSAs"
+    os.mkdir(f"{path}/Passed_MSA")
+    os.mkdir(f"{path}/Failed_MSA")
+
+    for file in files:
+        if file.endswith(".fna"):
+            print(file)
+
+
 def analysis_exe(inputs):
     # Start BUSCO
     if inputs[0].__contains__("0") or inputs[0].__contains__("1"):
@@ -164,14 +176,17 @@ def analysis_exe(inputs):
     # Start TrimAl
     if inputs[0].__contains__("0") or inputs[0].__contains__("4"):
         print(subprocess.run(["bash", "-i", "Arbophyl.sh", "trimal"]))
-    # Start IQTREE Models
+    # Start MSA QC
     if inputs[0].__contains__("0") or inputs[0].__contains__("5"):
+        sum_of_pairs()
+    # Start IQTREE Models
+    if inputs[0].__contains__("0") or inputs[0].__contains__("6"):
         print(subprocess.run(["bash", "-i", "Arbophyl.sh", "iqtree_models", inputs[2]]))
     # Start Partition file creation
-    if inputs[0].__contains__("0") or inputs[0].__contains__("6"):
+    if inputs[0].__contains__("0") or inputs[0].__contains__("7"):
         create_partition_file()
     # Start IQTREE
-    if inputs[0].__contains__("0") or inputs[0].__contains__("7"):
+    if inputs[0].__contains__("0") or inputs[0].__contains__("8"):
         print(subprocess.run(["bash", "-i", "Arbophyl.sh", "iqtree", inputs[2]]))
 
 
