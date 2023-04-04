@@ -1,11 +1,12 @@
 # ArboPhyl version 1.1
-# 31-03-2023
+# 04-04-2023
 # Author: Tim Verschuren
 
 import subprocess
 import os
 import collections
 from Bio import AlignIO
+import shutil
 
 def title():
     print(f"+-------------------------------------------------+")
@@ -153,14 +154,32 @@ def create_partition_file():
 
 def sum_of_pairs():
 
-    files = os.listdir()
     path = f"{os.getcwd()}/FilterBUSCOs_output/MAFFT_output/Trimmed_MSAs"
-    os.mkdir(f"{path}/Passed_MSA")
+    files = os.listdir(path)
+    os.mkdir(f"{path}/Passed_MSA", )
     os.mkdir(f"{path}/Failed_MSA")
 
     for file in files:
         if file.endswith(".fna"):
-            print(file)
+            alignment = AlignIO.read(f"{path}/{file}", "fasta")
+            sum_pair_score = 0
+
+            for i in range(len(alignment[0])):
+                pair_score = 0
+                pair_list = []
+                for j in range(len(alignment)):
+                    pair_list.append(alignment[j].seq[i])
+                score = 0
+                for x in range(len(pair_list)):
+                    for y in range(x+1, len(pair_list)):
+                        if pair_list[x] == pair_list[y]:
+                            score += 1
+                pair_score = score/(len(pair_list)*(len(pair_list)-1)/2)
+                sum_pair_score += pair_score
+            if sum_pair_score/len(alignment[0]) >= 0.45:
+                shutil.move(f"{path}/{file}", f"{path}/Passed_MSA/{file}")
+            else:
+                shutil.move(f"{path}/{file}", f"{path}/Failed_MSA/{file}")
 
 
 def analysis_exe(inputs):
