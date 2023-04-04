@@ -33,8 +33,8 @@ if [[ "$1" == "iqtree_models" ]]; then
     mkdir Models
     for file in *fna
     do
-        mkdir Models/${file/trimmed.fna/""}
-        cp $file Models/${file/trimmed.fna/""}
+        mkdir Models/${file/_trimmed.fna/""}
+        cp $file Models/${file/_trimmed.fna/""}
     done
 
     cd Models/

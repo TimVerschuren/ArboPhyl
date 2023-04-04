@@ -134,14 +134,14 @@ def busco_MSA(inputs):
 def create_partition_file():
 
     model_dict = {}
-    path = f"{os.getcwd()}/FilterBUSCOs_output/MAFFT_output/Trimmed_MSAs/Models"
+    path = f"{os.getcwd()}/FilterBUSCOs_output/MAFFT_output/Trimmed_MSAs/Passed_MSA/Models"
     with open("Partition.nex", "w") as partition_file:
         partition_file.write("#nexus\nbegin sets;\n")
         for dir in os.listdir(path):
             if dir.__contains__(".") or dir.__contains__("_"):
                 pass
             else:
-                partition_file.write(f"\tcharset {dir} = FilterBUSCOs_output/MAFFT_output/Trimmed_MSAs/{dir}_trimmed.fna: *;\n")
+                partition_file.write(f"\tcharset {dir} = FilterBUSCOs_output/MAFFT_output/Trimmed_MSAs/Passed_MSA/{dir}_trimmed.fna: *;\n")
                 with open(f"{path}/{dir}/{dir}_trimmed.fna.iqtree", "r") as models:
                     for line in models:
                         if "BIC:" in line:
