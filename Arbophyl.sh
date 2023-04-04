@@ -30,8 +30,8 @@ fi
 
 if [[ "$1" == "iqtree_models" ]]; then
     cd FilterBUSCOs_output/MAFFT_output/Trimmed_MSAs
-    mkdir Trimmed_MSAs/Models
-    for file in /Passed_MSA/*fna
+    mkdir Models
+    for file in Passed_MSA/*fna
     do
         mkdir Models/${file/trimmed.fna/""}
         cp $file Models/${file/trimmed.fna/""}
