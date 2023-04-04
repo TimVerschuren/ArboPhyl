@@ -22,7 +22,6 @@ if [[ "$1" == "trimal" ]]; then
     cd FilterBUSCOs_output/MAFFT_output/
     conda activate trimal
     mkdir Trimmed_MSAs
-    mkdir Trimmed_MSAs/Models
     for file in *fna
     do
         trimal -in $file -out Trimmed_MSAs/${file/MSA/"trimmed"} -strict
@@ -31,10 +30,11 @@ fi
 
 if [[ "$1" == "iqtree_models" ]]; then
     cd FilterBUSCOs_output/MAFFT_output/Trimmed_MSAs
-    for file in Passed_MSA/*fna
+    mkdir Trimmed_MSAs/Models
+    for file in /Passed_MSA/*fna
     do
-        mkdir Models/${file/_MSA.fna/""}
-        cp ${file/MSA/"trimmed"} Models/${file/_MSA.fna/""}
+        mkdir Models/${file/trimmed.fna/""}
+        cp $file Models/${file/trimmed.fna/""}
     done
 
     cd Models/
